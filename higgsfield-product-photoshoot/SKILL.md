@@ -201,7 +201,13 @@ Backend picks a sensible default per mode. Override with `--aspect_ratio` only i
 
 ## Resolution
 
-Use `2k` for every product-photoshoot job.
+Fixed at `2k` by the backend for every mode — there is no `--resolution` flag and nothing to set.
+Passing one fails with `Error: unknown flag: --resolution`.
+
+If the user needs a resolution other than 2k, this command cannot do it. `product-photoshoot` is a
+locked wrapper: it always enhances to `gpt_image_2` at 2k. Drop down to
+`higgsfield generate create <model> --resolution <value>` and write the prompt yourself, accepting
+the loss of the mode enhancer.
 
 ## Delivering results
 
