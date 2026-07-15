@@ -90,7 +90,7 @@ Ask 3–4 short questions before submitting. Always labeled options, never open-
 1. How many? `[1 / 3 / 5]`
 2. What style/mood? `[Clean studio / Lifestyle / Conceptual / With a model / Other]`
 3. Where will you use them? `[Shopify / Instagram / Pinterest / Paid ads / Website hero]`
-4. Brand colors to match? (skip if obvious)
+4. Brand colors to match? (skip if obvious) → pass the answer as `--brand_context`
 
 ### Type B — uploaded a product photo, named a use case
 
@@ -103,7 +103,8 @@ E.g. "make ads for my product", "make a Pinterest pin", "make a hero banner". Mo
 ### Type C — text only, no product photo
 
 1. Can you upload a product photo? (preferred — much higher fidelity)
-2. If not, describe the product — category, packaging, color, distinctive features.
+2. If not, describe the product — category, packaging, color, distinctive features. → pass the
+   answer as `--product_context`
 3. What style? (same options as Type A)
 4. Where will you use it?
 
@@ -143,8 +144,20 @@ higgsfield product-photoshoot create \
   --prompt "<short user-intent description from interview answers>" \
   [--image <path-or-upload-id>]... \
   [--count <1-10>] \
-  [--aspect_ratio <override>]
+  [--aspect_ratio <override>] \
+  [--brand_context "<brand answers from the interview>"] \
+  [--product_context "<product answers from the interview>"]
 ```
+
+Pass the interview answers through — don't drop them into `--prompt`:
+
+- `--brand_context` — brand colors, palette, tone, and brand-level constraints. This is where the
+  "Brand colors to match?" answer goes.
+- `--product_context` — product category, packaging, color, distinctive features. This is where the
+  Type C "describe the product" answer goes.
+
+Keep `--prompt` as the short intent line. The enhancer reads the two context flags separately, so
+folding brand/product detail into `--prompt` mixes intent with constraints and weakens both.
 
 Examples:
 
@@ -153,7 +166,9 @@ higgsfield product-photoshoot create \
   --mode lifestyle_scene \
   --prompt "bottle of cold-brew on a sunlit kitchen counter, IG feed" \
   --image bottle.jpg \
-  --count 3
+  --count 3 \
+  --brand_context "muted sage and cream palette, understated premium tone" \
+  --product_context "250ml amber glass bottle, matte label, brushed metal cap"
 ```
 
 ```bash
