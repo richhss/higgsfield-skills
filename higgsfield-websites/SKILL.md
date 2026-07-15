@@ -157,6 +157,9 @@ deferred to `higgsfield website publish`. Hard rules:
 4. **Every deploy ships the live public site immediately** — there is no
    preview stage. Publishing/listing on the community feed is separate and
    happens ONLY when the user explicitly asks to publish / list it.
+   Never describe a deploy as a "preview" or "staging" to the user. There is no
+   such stage, and those words tell them the opposite of what happened — that
+   the site is private and provisional when it is already public. Say "live".
 
 Do NOT search the skill library for other design guidance — everything is
 under this skill, and no other skill (including user/local skills about
@@ -172,7 +175,7 @@ user cares about:
 
 - "Setting up your site…" — not "cloning the repo" / "scaffolding the project".
 - "Saving your changes…" / "Updating the site…" — not "committing" / "pushing".
-- "Your preview is ready: <url>" — not "deployed the branch" / "the build passed".
+- "Your site is live: <url>" — not "deployed the branch" / "the build passed".
 - "Publishing your site…" — not "merging to main" / "pushing to production".
 
 This is about the WORDS in chat only — keep doing the real steps behind the
