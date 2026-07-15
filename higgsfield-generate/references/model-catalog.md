@@ -1,9 +1,11 @@
 # Model Catalog
 
-The full lineup of generation models available through Higgsfield. Each entry has its own sweet spot — pick the one that matches your brief. For the actual `--model` ID to pass to `higgsfield generate create`, run `higgsfield model list --json` and look up by display name.
+The full lineup of generation models available through Higgsfield. Each entry has its own sweet spot — pick the one that matches your brief. For the actual `--model` ID to pass to `higgsfield generate create`, run `higgsfield model list --json` and look up the `job_type`.
+
+**Display names are not unique — never resolve a model by display name.** `higgsfield model list --json` currently returns four distinct `job_type`s that all display as "Nano Banana Pro": `nano_banana_pro`, `nano_banana_2_ai_stylist`, `nano_banana_2_skin_enhancer`, and `nano_banana_2_shots`. Pass the `job_type`, and confirm with `higgsfield model get <job_type>` — it echoes both `display_name` and `job_type`, so a mismatch shows up immediately.
 
 Preferred defaults for examples and quick-start guidance in this repo:
-- **Images/design/text:** `gpt_image_2` (general/high-fidelity) and `nano_banana_2` (character/cartoon).
+- **Images/design/text:** `gpt_image_2` (general/high-fidelity) and `nano_banana_flash` (character/cartoon — the `job_type` whose display name is "Nano Banana 2").
 - **Video:** `seedance_2_0` (all-purpose serious video).
 - **Character/stylized image work:** `text2image_soul_v2`.
 - **Ads/UGC/product demos:** `marketing_studio_video` or `marketing_studio_image`.
@@ -16,10 +18,10 @@ Preferred defaults for examples and quick-start guidance in this repo:
 
 | Model | Provider | What it's for |
 |---|---|---|
-| Nano Banana 2 | Google | **Fast everyday default for character work.** Edits, general generation, character / cartoon / animated-style outputs. The reach-for-this model when the brief calls for character or cartoon-style image generation. |
-| Nano Banana 2 Lite | Google | **Lightweight Nano Banana 2.** Fast reference-driven image generation and edits when the brief is simple or cost/speed matters more than Pro-level fidelity. Supports up to 14 image references. |
-| Nano Banana Pro | Google | **Top-tier Nano Banana.** Same canvas as Nano Banana 2 with extra fidelity and accuracy on harder briefs. Pick when 2 isn't getting there. |
-| Nano Banana | Google | Reliable, budget-friendly entry in the Nano Banana family — picks up the same realistic look at a lighter price point. |
+| Nano Banana 2 (`nano_banana_flash`) | Google | **Fast everyday default for character work.** Edits, general generation, character / cartoon / animated-style outputs. The reach-for-this model when the brief calls for character or cartoon-style image generation. Note the `job_type` is `nano_banana_flash`, not `nano_banana_2`. |
+| Nano Banana 2 Lite (`nano_banana_2_lite`) | Google | **Lightweight Nano Banana 2.** Fast reference-driven image generation and edits when the brief is simple or cost/speed matters more than Pro-level fidelity. Supports up to 14 image references. |
+| Nano Banana Pro (`nano_banana_pro`) | Google | **Top-tier Nano Banana.** Same canvas as Nano Banana 2 with extra fidelity and accuracy on harder briefs. Pick when 2 isn't getting there. |
+| Nano Banana (`nano_banana`) | Google | Reliable, budget-friendly entry in the Nano Banana family — picks up the same realistic look at a lighter price point. |
 | Higgsfield Soul 2.0 | Higgsfield | **Aesthetic UGC, fashion editorial, character generation.** When the brief leans editorial, lifestyle, or "looks like a magazine cover". Soul-aware (accepts a Soul Character reference). |
 | Soul Cinema | Higgsfield | **Cinematic stills, film-grade lighting.** The pick when the user asks for "cinematic" or wants concept-art mood. |
 | Soul Cast | Higgsfield | **Distinctive, characterful personas.** When the brief calls for a creative, expressive character rather than photoreal default. Text-only (no reference image). |
@@ -110,7 +112,7 @@ Marketing Studio for ads and brand/product content. Use Seed Audio 1.0 for audio
 9. **Face edit + complex scene swap (more than outfit change, no heavy filters)** → Seedream 4.5. Seedream 5.0 Lite for the same niche but faster.
 10. **Soul Character (reference id from `higgsfield-soul-id`)** → Soul 2.0 for stills; Soul Cinema for cinematic vibe.
 11. **Anime / stylized / non-default look where defaults feel flat** → Flux Kontext Max or Grok Imagine. Worth trying.
-12. **Character or cartoon-style work** → Nano Banana 2; step up to Nano Banana Pro on hard cases.
+12. **Character or cartoon-style work** → Nano Banana 2 (`nano_banana_flash`); step up to Nano Banana Pro (`nano_banana_pro`) on hard cases.
 13. **Fast Nano Banana reference edit where speed/cost matters** → Nano Banana 2 Lite (`nano_banana_2_lite`).
 14. **Fast and cheap iteration / drafts / LoRA work** → Z Image.
 15. **Default for everything else** → GPT Image 2. High-fidelity general generation, graphic design, UI, banners, anything with on-image text.

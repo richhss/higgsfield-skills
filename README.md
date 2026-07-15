@@ -93,7 +93,7 @@ The skills chain: train Soul → use the reference id in `generate` (including M
 
 | What you want | Skill | Note |
 |---|---|---|
-| Generate any image / video from a prompt | `higgsfield-generate` | Prefers `gpt_image_2` / `nano_banana_2` for images and `seedance_2_0` for video by default |
+| Generate any image / video from a prompt | `higgsfield-generate` | Prefers `gpt_image_2` / `nano_banana_flash` for images and `seedance_2_0` for video by default |
 | Generate audio from a prompt | `higgsfield-generate` | Prefers `seed_audio` by default |
 | Image with my own face | `higgsfield-soul-id` then `higgsfield-generate` | One-time training, then `--soul-id` |
 | Branded product photo (studio / lifestyle / Pinterest / hero / ad pack) | `higgsfield-product-photoshoot` | Mode-specific prompt enhancer + `gpt_image_2` |
