@@ -14,7 +14,7 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 **Expected behavior:**
 
-- Picks `nano_banana_2`, `flux_2`, or another photorealistic-default model.
+- Picks `nano_banana_flash`, `flux_2`, or another photorealistic-default model.
 - Does NOT pick a Soul model (no face mentioned).
 - Does NOT pick `gpt_image_2` (overkill for "quick").
 - Submits via `higgsfield generate create <model> --prompt "..." --wait` (one-shot create+poll, no separate `wait` step).
@@ -171,8 +171,8 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 - Detects user_language = `ru`.
 - Replies in Russian for status, questions, summary.
-- Keeps technical flags English (`--model nano_banana_2`, `--aspect_ratio 16:9`).
-- Picks `nano_banana_2` or `flux_2`.
+- Keeps technical flags English (`--model nano_banana_flash`, `--aspect_ratio 16:9`).
+- Picks `nano_banana_flash` or `flux_2`.
 
 **Score:**
 
