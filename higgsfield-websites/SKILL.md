@@ -2,20 +2,16 @@
 version: 0.12.0
 name: higgsfield-websites
 description: |
-  Build, edit, and deploy full-stack websites via the Higgsfield CLI
-  (`higgsfield website …`). Each site is a React 19 + TanStack Start SSR app in
-  one Cloudflare Worker (D1/R2/KV/DO/Containers). TWO product types, picked via
-  `--type` on create: `website` (standalone, NO Higgsfield integration,
-  independent brand, custom CSS — the image-grounded pipeline in
-  references/website-flow.md) vs `app` (Sign in with Higgsfield + fnf SDK,
-  Quanta + app layouts per references/app-flow.md). This file routes to
-  the right flow; each flow carries its own workflow, references, hard rules,
-  and deploy/publish gates.
-  Use when: "build me a website", "make a landing page", "create a web app",
-  "build a SaaS dashboard / tool / portfolio", "deploy this site", "edit my
-  site", "publish", "ship to production".
-  NOT for: single image/video/audio generation (higgsfield-generate), product
-  photos (higgsfield-product-photoshoot), marketplace cards
+  Build, edit, deploy and publish full-stack websites and web apps via the
+  Higgsfield CLI (`higgsfield website ...`): React 19 + TanStack Start SSR
+  in one Cloudflare Worker. Two product types chosen with `--type` on
+  create: `website` (standalone, no Higgsfield integration, image-grounded
+  pipeline in references/website-flow.md) and `app` (Sign in with
+  Higgsfield + fnf SDK, references/app-flow.md). This file routes to the
+  right flow; each flow carries its own rules and publish gates.
+  Use for any request to create, change, or ship a site or web app.
+  NOT for: single image/video/audio generation (higgsfield-generate),
+  product photos (higgsfield-product-photoshoot), marketplace cards
   (higgsfield-marketplace-cards).
 argument-hint: "[what to build or edit] [--type website|app]"
 allowed-tools: Bash
@@ -61,12 +57,12 @@ question, up front):
   higgsfield website create --type app
   ```
 
-**Generation is ALWAYS an app.** Any product that generates images, video,
-audio, or other AI media runs on Higgsfield — build it as `--type app` (Sign
-in with Higgsfield, generation on the user's Higgsfield credits). NEVER offer
-the user an option to "bring your own image/video API" or plug in their own
-generation key for a website — that path does not exist. `--type website` is
-ONLY for sites with no generation and no tie to Higgsfield or any other
+**Generation means app.** Any product that generates images, video,
+audio, or other AI media runs on Higgsfield, so build it as `--type app` (Sign
+in with Higgsfield, generation on the user's Higgsfield credits). There is no
+"bring your own image/video API" path for a website, so do not offer one.
+`--type website` is only for sites with no generation and no tie to
+Higgsfield or any other
 generation service. (A website may still use ordinary non-generation
 third-party APIs — payments, maps, email — with the user's own keys; that is
 unrelated to this rule.)
@@ -126,7 +122,7 @@ infra, a single live deploy via `higgsfield website deploy <website_id>`,
 the cover + metadata requirement below, and the publish gate) — each flow
 restates what it needs, so you never have to read the other one.
 
-## Cover + metadata — ALWAYS part of building, never publish-only
+## Cover + metadata are part of the build, not a publish step
 
 Every build — website or app, no matter how small — ships with the branded
 launch cover and filled feed-card metadata, generated per

@@ -2,25 +2,17 @@
 version: 0.12.0
 name: higgsfield-generate
 description: |
-  Generate images/videos/3D assets/audio via Higgsfield AI. Defaults:
-  GPT Image 2 for image/design/text, Seedance 2.0 for
-  video, Nano Banana 2/Lite/Pro for character/reference
-  images, Marketing Studio for ads, Seed Audio 1.0 for audio.
-  Use when: "generate an image", "make a video", "animate
-  this photo", "image-to-video", "edit/stylize/remix this
-  image", "reframe this video", "edit this video from a
-  sketch", "create a 3D model/GLB", "create a sound effect",
-  "make music", "text-to-audio", "create an ad", "make a UGC
-  video", "unboxing", "presenter video", "import product from
-  URL", or "analyze video virality". Supports image-to-3D
-  (`multi_image_to_3d`),
-  text-to-audio/music (`seed_audio`), workflow generation
-  (`draw_to_video`, `reframe`), Marketing Studio, and
-  Virality Predictor (`brain_activity`).
+  Generate or edit images, video, 3D assets and audio on Higgsfield AI,
+  including image-to-video, reframing, sketch-to-video, Marketing Studio
+  ad and UGC formats, product import from a URL, and the Virality Predictor.
+  Use for any generative media request where Higgsfield is the chosen
+  provider. Defaults: GPT Image 2 for image/design/text, Seedance 2.0 for
+  video, Nano Banana for character and reference images, Seed Audio 1.0
+  for audio.
   Chain with higgsfield-soul-id for face/identity consistency.
-  NOT for: Soul Character training (use higgsfield-soul-id),
-  product photoshoots, marketplace listing cards,
-  text/chat/TTS tasks.
+  NOT for: Soul Character training (higgsfield-soul-id), product
+  photoshoots (higgsfield-product-photoshoot), marketplace listing cards
+  (higgsfield-marketplace-cards), text/chat/TTS tasks.
 argument-hint: "[prompt-or-analysis-request] [--model <name>] [--image|--video <path-or-id>]"
 allowed-tools: Bash
 ---
