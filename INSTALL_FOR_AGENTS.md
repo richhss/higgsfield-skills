@@ -30,11 +30,19 @@ Verify: `higgsfield account status`. Expect `<email> — <plan> plan, <N> credit
 
 ## Step 3 — Install the skills
 
-Detect the agent platform:
+**Claude Code** — install the plugin, then ask the user to restart Claude Code:
+
+```bash
+claude plugin marketplace add higgsfield-ai/skills
+claude plugin install higgsfield@higgsfield
+```
+
+If the plugin install is unavailable, clone the repo anywhere and run `./setup --host claude`, which links each skill into `~/.claude/skills/<skill-name>`. Do not clone the repo into `~/.claude/skills/higgsfield`: Claude Code looks for each skill one level down and finds none there.
+
+**Other agents** — clone into the agent's plugin directory:
 
 | Agent | Path |
 |---|---|
-| Claude Code | `~/.claude/skills/higgsfield` |
 | Cursor | `~/.cursor/plugins/higgsfield` |
 | Codex | `~/.codex/plugins/higgsfield` |
 | Other | `~/.<agent>/skills/higgsfield` |
@@ -60,6 +68,6 @@ If anything fails:
 
 ## Step 5 — Done
 
-Report to the user: "Skills installed. Try: 'Generate me a [thing]' or 'Train my Soul on these photos'."
+Report to the user: "Skills installed. Try generating media, creating a complete brand identity, making a narrated explainer or YouTube thumbnail, building a browser game, or training a Soul Character."
 
 Do NOT explain the internals (skill paths, file structure). Just confirm install + give starter prompts.

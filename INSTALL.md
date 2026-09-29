@@ -1,14 +1,17 @@
 # Install Higgsfield Skills
 
-Five skills ship in this repo:
+Eight skills ship in this repo:
 
 - **`higgsfield-generate`** — image and video generation, 30+ models, plus Marketing Studio (branded ads with avatars, products, hooks, and settings) and Virality Predictor scoring
 - **`higgsfield-soul-id`** — train a face-faithful Soul Character
 - **`higgsfield-product-photoshoot`** — brand-quality product imagery with mode-specific prompt enhancement
+- **`higgsfield-brandkit`** — complete visual identities, editable logo systems, brand applications, and PPTX/PDF brandbooks
 - **`higgsfield-marketplace-cards`** — marketplace main, secondary, and A+ style product cards with backend prompt enhancement
-- **`higgsfield-websites`** — build, edit, and deploy full-stack websites (React 19 + TanStack Start on Cloudflare) via `higgsfield website …`
+- **`higgsfield-websites`** — build, edit, and deploy full-stack websites, apps, and browser games (React 19 + TanStack Start on Cloudflare) via `higgsfield website …`
+- **`higgsfield-video-explainer`** — complete narrated explainers with live style-preset selection
+- **`higgsfield-youtube-thumbnail`** — truthful YouTube thumbnails and vertical video covers with controlled variants
 
-They chain: `higgsfield-soul-id` returns a Soul ID consumable by `higgsfield-generate` (Soul models and identity-aware Marketing Studio jobs). `higgsfield-product-photoshoot` is the single entry point for professional brand product visuals; `higgsfield-marketplace-cards` is the marketplace product card pipeline. Both use backend prompt enhancement before submitting image jobs. `higgsfield-websites` chains with `higgsfield-generate` to embed bespoke hero images, video loops, and OG assets in a site.
+They chain: `higgsfield-soul-id` returns a Soul ID consumable by `higgsfield-generate` (Soul models and identity-aware Marketing Studio jobs). `higgsfield-brandkit` coordinates Recraft, Seedream, GPT Image, and local deterministic tools into one approved visual system. `higgsfield-product-photoshoot` is the single entry point for professional brand product visuals; `higgsfield-marketplace-cards` is the marketplace product card pipeline. Both use backend prompt enhancement before submitting image jobs. `higgsfield-websites` chains with `higgsfield-generate` to embed bespoke hero images, video loops, and OG assets in a site.
 
 ## Prerequisites
 
@@ -21,6 +24,8 @@ higgsfield auth login
 
 `higgsfield-websites` additionally uses `git` and [`bun`](https://bun.sh) locally to clone and build the website repo it creates.
 
+`higgsfield-brandkit` checks stage-specific local tools and asks before installing anything. Full exports may require Playwright Chromium, ImageMagick, librsvg, LibreOffice, Poppler, and Fontconfig; FFmpeg is not used. Exact macOS and Ubuntu commands live in `higgsfield-brandkit/references/prerequisites.md`.
+
 ## Option 1 — `npx skills` (recommended, cross-agent)
 
 Works with Claude Code, Cursor, Codex, and any agent that picks up `~/.<agent>/skills/<name>/SKILL.md`. Requires Node.js.
@@ -29,7 +34,7 @@ Works with Claude Code, Cursor, Codex, and any agent that picks up `~/.<agent>/s
 npx skills add higgsfield-ai/skills
 ```
 
-Installs all five skills. The `skills` CLI auto-detects the host agent and writes each skill to the right path.
+Installs all eight skills. The `skills` CLI auto-detects the host agent and writes each skill to the right path.
 
 ## Option 2 — `gh skill install`
 
@@ -39,7 +44,7 @@ GitHub CLI v2.90+ extension. Same coverage as `npx skills`.
 gh skill install higgsfield-ai/skills
 ```
 
-Installs all five skills.
+Installs all eight skills.
 
 ## Option 3 — Claude Code marketplace
 
@@ -50,7 +55,7 @@ Claude Code only. Inside Claude Code:
 /plugin install higgsfield@higgsfield
 ```
 
-Pulls the plugin manifest from `.claude-plugin/marketplace.json` and registers all five skills as `/higgsfield:generate`, `/higgsfield:soul-id`, `/higgsfield:product-photoshoot`, `/higgsfield:marketplace-cards`, `/higgsfield:websites`.
+Pulls the plugin manifest from `.claude-plugin/marketplace.json` and registers all eight skills, including `/higgsfield:higgsfield-brandkit`, `/higgsfield:higgsfield-youtube-thumbnail`, and `/higgsfield:higgsfield-websites`.
 
 ## Option 4 — Setup script
 

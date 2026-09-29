@@ -1,6 +1,6 @@
 # Scenarios
 
-11 starter scenarios across the 3 skills. Each is one user request + what the agent should do + how to score it.
+Starter scenarios across the Higgsfield skills. Each is one user request + what the agent should do + how to score it.
 
 These exist to be run by a human (or by another agent acting as the user) in a fresh session with skills installed.
 
@@ -14,9 +14,8 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 **Expected behavior:**
 
-- Picks `nano_banana_flash`, `flux_2`, or another photorealistic-default model.
+- Picks `gpt_image_2_5` (default), or a faster option (`z_image`, `nano_banana_2_lite`) because the user said "quick".
 - Does NOT pick a Soul model (no face mentioned).
-- Does NOT pick `gpt_image_2` (overkill for "quick").
 - Submits via `higgsfield generate create <model> --prompt "..." --wait` (one-shot create+poll, no separate `wait` step).
 - Stays silent until done (no "checking status..." spam).
 - Delivers ONE URL with a short summary.
@@ -38,7 +37,7 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 **Expected behavior:**
 
-- Picks `kling3_0` (default for image-to-video) or `seedance_2_0`.
+- Picks `seedance_2_5` (default for image-to-video) with `--mode omni_reference`.
 - Uses `--start-image still.jpg`.
 - Uses motion verbs in the prompt ("pulls back", "ambient motion") not redescribed scene.
 - `--duration 5`.
@@ -172,7 +171,7 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 - Detects user_language = `ru`.
 - Replies in Russian for status, questions, summary.
 - Keeps technical flags English (`--model nano_banana_flash`, `--aspect_ratio 16:9`).
-- Picks `nano_banana_flash` or `flux_2`.
+- Picks `gpt_image_2_5` (default).
 
 **Score:**
 
@@ -247,6 +246,74 @@ These exist to be run by a human (or by another agent acting as the user) in a f
 
 ---
 
+## Scenario 12 — Video explainer preset selection
+
+**User request:**
+
+> Make a one-minute narrated explainer in Russian about how neural networks learn. Show me the available visual styles first.
+
+**Expected behavior:**
+
+- Routes to `higgsfield-video-explainer`, not generic video generation.
+- Runs `higgsfield preset list video-explainer --json` and shows current preview links.
+- Waits for style selection, then resolves its UUID with `higgsfield preset resolve video-explainer`.
+- Lets the user choose one voice and creates six Russian `seed_audio` narration jobs first.
+- Creates six matching 10-second `gemini_omni` clips second, all with the resolved style key.
+- Builds ordered `blocks.json` pairs and finishes with one `explainer_video` generation job.
+
+**Score:**
+
+- Pass: live preset and voice selection, six matched audio/video blocks, final assembled MP4.
+- Partial: correct block pipeline but chooses a requested option without showing it or loses a block pairing.
+- Fail: embeds a preset list, fabricates an ID, uses `video_explainer`, or returns loose clips.
+
+---
+
+## Scenario 13 — Playable browser game
+
+**User request:**
+
+> Build a small mobile-friendly browser game where a fox collects stars, then give me a play link.
+
+**Expected behavior:**
+
+- Routes to `higgsfield-websites` and creates the project with `--type game` and a game-genre `--category`.
+- Produces a STYLE FORMULA and `design/assets.csv` before visuals/code.
+- Builds responsive touch + keyboard controls and a complete win/lose/restart loop.
+- Verifies locally, pushes, and runs `higgsfield website deploy`.
+- Does not run `higgsfield website publish` unless publication is requested.
+
+**Score:**
+
+- Pass: coherent game, manifest-driven assets, local verification, returned deploy URL.
+- Partial: playable and deployed but missing one planning artifact or mobile verification.
+- Fail: returns only concept art/code, constructs a URL manually, or publishes publicly without consent.
+
+---
+
+## Scenario 14 — Complete visual identity (brandkit)
+
+**User request:**
+
+> Create a visual identity and brandbook for Northline, a calm technical logistics platform. Start from scratch.
+
+**Expected behavior:**
+
+- Routes to `higgsfield-brandkit`, not generic generation or Marketing Studio's URL-import brand kit.
+- Asks only for unresolved context/preferences and checks stage-specific local dependencies without installing them silently.
+- Creates 2–3 palette boards, shows them, and waits for a selection.
+- After palette approval, generates exactly three `recraft_v4_1` vector SVG marks with identical technical parameters and waits for logo selection.
+- Proposes typography only after logo selection, persists each approval in project-local `brandkit/state.json`, and builds the canonical PPTX/PDF Brandbook only after all three slots are approved.
+- Does not use FFmpeg, self-select a logo, invent brand claims, or replace an approved mark during downstream mockups.
+
+**Score:**
+
+- Pass: correct staged routing, three SVG candidates, explicit approval gates, durable state, and dependency-aware Brandbook output.
+- Partial: correct assets but asks a full questionnaire, installs tools without permission, or loses approval state.
+- Fail: uses the Marketing Studio metadata kit, self-approves a mark, produces only raster logos, or skips palette/logo/type selection.
+
+---
+
 ## Round template (copy when recording results)
 
 ```
@@ -260,6 +327,9 @@ Scenario 2: ...
 ...
 Scenario 10: ...
 Scenario 11: ...
+Scenario 12: ...
+Scenario 13: ...
+Scenario 14: ...
 
 Aggregate: <P pass / Q partial / F fail>
 Time-to-result mean: <Ns>

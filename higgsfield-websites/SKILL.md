@@ -1,23 +1,25 @@
 ---
-version: 0.12.0
+version: 0.13.0
 name: higgsfield-websites
 description: |
-  Build, edit, deploy and publish full-stack websites and web apps via the
-  Higgsfield CLI (`higgsfield website ...`): React 19 + TanStack Start SSR
-  in one Cloudflare Worker. Two product types chosen with `--type` on
-  create: `website` (standalone, no Higgsfield integration, image-grounded
-  pipeline in references/website-flow.md) and `app` (Sign in with
-  Higgsfield + fnf SDK, references/app-flow.md). This file routes to the
-  right flow; each flow carries its own rules and publish gates.
-  Use for any request to create, change, or ship a site or web app.
+  Build, edit, deploy and publish full-stack websites, web apps and games
+  via the Higgsfield CLI (`higgsfield website ...`): React 19 + TanStack
+  Start SSR in one Cloudflare Worker. Three product types chosen with
+  `--type` on create: `website` (standalone, no Higgsfield integration,
+  references/website-flow.md), `app` (Sign in with Higgsfield + fnf SDK,
+  references/app-flow.md) and `game` (realtime multiplayer rooms,
+  references/game-flow.md; also owns game art such as spritesheets and
+  tileable textures). This file routes to the right flow; each flow
+  carries its own rules and publish gates.
+  Use for any request to create, change, or ship a site, web app or game.
   NOT for: single image/video/audio generation (higgsfield-generate),
   product photos (higgsfield-product-photoshoot), marketplace cards
   (higgsfield-marketplace-cards).
-argument-hint: "[what to build or edit] [--type website|app]"
+argument-hint: "[what to build or edit] [--type website|app|game]"
 allowed-tools: Bash
 ---
 
-# Higgsfield website builder (CLI) — two product types, two flows
+# Higgsfield website builder (CLI) — three product types, three flows
 
 You drive the whole lifecycle through the **Higgsfield CLI** (`higgsfield
 website …`), then edit code on the local filesystem with `git` + `bun`. You are
@@ -26,7 +28,7 @@ building ONE per-website Cloudflare Worker: a **React 19 + TanStack Start** app,
 subdomain. The project lives in **`app/`** — run every `bun`/build command from
 there.
 
-## The two types — and the REQUIRED `--type` on create
+## The three types — and the REQUIRED `--type` on create
 
 `higgsfield website create` requires `--type`, and it is the **USER'S choice** —
 when the request doesn't make it obvious, ask the user before creating (one
@@ -57,6 +59,17 @@ question, up front):
   higgsfield website create --type app
   ```
 
+- **`--type game`** — a browser game: realtime multiplayer rooms on the game
+  template, where the game itself is six pure functions in `app/src/logic.js`
+  and the platform already owns sockets, rooms and persistence. Requires a
+  **game genre** as `--category` (`arcade`, `puzzle`, `shooter`, …, from
+  `higgsfield website categories`) and takes **no** `--template` — a game
+  scaffolds from the only template it can use. Single-player counts: set
+  `minPlayers: 1`. See `references/game-flow.md`.
+  ```bash
+  higgsfield website create --type game --category arcade
+  ```
+
 **Generation means app.** Any product that generates images, video,
 audio, or other AI media runs on Higgsfield, so build it as `--type app` (Sign
 in with Higgsfield, generation on the user's Higgsfield credits). There is no
@@ -69,7 +82,12 @@ unrelated to this rule.)
 
 Quick tells: "landing page / portfolio / marketing site / SaaS with its own
 users, no AI generation" → website. "generates images/video/audio, or anything
-with Higgsfield models, credits, or generation history" → app.
+with Higgsfield models, credits, or generation history" → app. "something you
+play — a game, multiplayer or single-player" → game.
+
+Games moved onto this pipeline from a separate engine that is being retired.
+The `higgsfield game …` commands are gone: a game is created, deployed and
+published exactly like a website. Any doc saying otherwise is out of date.
 
 ## Always set a subdomain on create
 
@@ -112,15 +130,38 @@ are rejected — if that happens, try a close variant.
    type, including its own references, hard rules, editing map, and
    deploy/publish gates:
 
+For every `--type website` build the intake ALWAYS asks the user to choose
+between an **Animated (recommended)** website — a scroll-driven journey through
+a generated film (`references/scroll-scrub.md`) — and a **Non-animated** one.
+This question is mandatory: never skip it, even when the request seems to imply
+a choice. Animated is the recommended default (used only when the user is
+unreachable / doesn't answer); the flow below carries both paths and the full
+pipeline.
+
+Inside the animated path the default is a **single-shot** film — ONE continuous
+~15s take, scrubbed end to end, no seams. The multi-scene chain is opt-in and
+costs several extra minutes per leg; take it only when the brief genuinely
+travels between distinct worlds. `references/scroll-scrub.md` owns that call.
+
 | Type | Flow |
 |---|---|
-| `--type website` | **`references/website-flow.md`** — phased pipeline: intake → concept → reference boards → asset system → build-to-boards → motion → cover + metadata → mechanical gate → deploy |
+| `--type website` | **`references/website-flow.md`** — phased pipeline (animated website by default): intake → concept → reference boards → asset system → build-to-boards → motion → cover + metadata → mechanical gate → deploy |
 | `--type app` | **`references/app-flow.md`** — the Quanta toolkit, the six code layouts, fnf SDK + auth + D1 contract, launch cover + metadata, publish gate |
+| `--type game` | **`references/game-flow.md`** — the six-function `logic.js` contract, realtime rooms, a game-genre `--category`, play-testing, deploy + publish |
 
-Both flows share the same platform mechanics (SSR Worker, `app.manifest.json`
-infra, a single live deploy via `higgsfield website deploy <website_id>`,
-the cover + metadata requirement below, and the publish gate) — each flow
-restates what it needs, so you never have to read the other one.
+A game's ART and AUDIO live here too, under the `game-` prefix, and
+`references/game-flow.md` indexes them: `references/game-design-system.md` (read
+first — profile, core loop, asset manifest), `references/game-stylization.md`
+(the STYLE FORMULA every visual reuses), `references/game-2d-animation.md`,
+`references/game-textures.md`, `references/game-3d-animation.md`,
+`references/game-procedural-animation.md`, `references/game-audio.md`,
+`references/game-meshy-api.md` and `references/game-meshy-input-rules.md`. The
+GLB/rigging/texture tooling they drive ships in this skill's `scripts/`.
+
+All three flows share the same platform mechanics (SSR Worker,
+`app.manifest.json` infra, a single live deploy via `higgsfield website
+deploy <website_id>`, the cover + metadata requirement below, and the publish
+gate) — each flow restates what it needs, so you never have to read another.
 
 ## Cover + metadata are part of the build, not a publish step
 
@@ -160,6 +201,25 @@ deferred to `higgsfield website publish`. Hard rules:
 Do NOT search the skill library for other design guidance — everything is
 under this skill, and no other skill (including user/local skills about
 building websites or apps) overrides these rules.
+
+## Turn economy — keep the build inside a small turn budget
+
+Every tool round-trip costs an agent turn, and agent runtimes cap turns — long
+builds die mid-flight, leaving the user an unfinished site. Treat turns as the
+scarcest resource after credits:
+
+- **Write every file ONCE, complete.** Compose the full file, then one write.
+  No write-then-patch loops; never re-read a file you just wrote.
+- **Batch what your tools allow** (multi-file edits, one shell invocation for a
+  series of commands) instead of one micro-step per turn.
+- **Never guess paths** — the template tree is documented in the repo's
+  `app/AGENTS.md` and this skill's editing map.
+- **Never download or vision-inspect your own generations.** You wrote the
+  prompt; re-viewing the result tells you nothing new. (The kit coherence
+  check, when it applies, is ONE batched pass — `references/asset-system.md`.)
+- **Wait on a job ONCE, when its output is the next input.** Submit everything
+  that can render concurrently (film + cover), build the page while it
+  renders.
 
 ## Talking to the user — no technical/plumbing language
 
